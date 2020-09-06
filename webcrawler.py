@@ -13,6 +13,7 @@ def crawl(site_mode,sites,num_sites):
     # Loads the default manager preferences and 3 copies of the default browser dictionaries
     manager_params, browser_params = TaskManager.load_default_params(NUM_BROWSERS)
     set_ublock_origin = (site_mode == 'adblock')
+
     # Update browser configuration (use this for per-browser settings)
     for i in range(NUM_BROWSERS):
         browser_params[i]['http_instrument'] = True #Record http requests and responses, saved to http_requests table
@@ -32,9 +33,14 @@ def crawl(site_mode,sites,num_sites):
 
     #pdb.set_trace()
 
+    print('about to do thing')
+
     # Instantiates the measurement platform
     # Commands time out by default after 60 seconds
     manager = TaskManager.TaskManager(manager_params, browser_params)
+
+    print('did thing')
+
 
     # Visits the sites with all browsers simultaneously
     for site in sites:
