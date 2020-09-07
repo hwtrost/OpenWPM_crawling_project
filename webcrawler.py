@@ -2,7 +2,7 @@
 ###
 ###
 
-from openwpm.automation import TaskManager, CommandSequence
+from openwpm.automation import CommandSequence,TaskManager
 import pdb
 
 NUM_BROWSERS = 2

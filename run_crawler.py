@@ -2,10 +2,11 @@
 ###
 ###
 
-import sqlite3
 import pandas as pd
+import sqlite3
+
 from webcrawler import *
-from shared import *
+from analysis import *
 
 NUM_SITES = 10
 sites_path = 'top-1m.csv'
