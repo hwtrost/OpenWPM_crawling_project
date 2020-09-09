@@ -22,15 +22,16 @@ results_file = open('results.txt','w')
 data = pd.read_csv(sites_path,header=None)
 sites = data.iloc[:NUM_SITES,1]
 
+print(sites)
+
 
 # analysis string variables
 vanilla_mode = 'Vanilla Mode'
 adblock_mode = 'Ad-Blocking Mode'
 
-http_query = ['url','http_requests']
-cookie_query = ['host','javascript_cookies']
-js_query = ['script_url','javascript']
-
+http_query = 'SELECT visit_id,url FROM http_requests'#['url','http_requests']
+cookie_query = 'SELECT visit_id,host FROM javascript_cookies'#['host','javascript_cookies']
+js_query = 'SELECT visit_id,script_url FROM javascript'#['script_url','javascript']
 
 http_title = 'HTTP Request Data'
 cookie_title = 'Cookie Data'
@@ -63,10 +64,10 @@ def write_third_party_data(third_party_domains_dict,data_type,mode):
     else:
         type = 'JS API calls'
     sorted_domains_dict = sorted(third_party_domains_dict.items(),key=lambda x: x[1],reverse=True)
-    results_file.write(data_type+' : Top 10 Most Popular Third-Party Domains of Websites in '+mode+'\n')
+    results_file.write(data_type+': Top 10 Most Popular Third-Party Domains of Websites in '+mode+'\n')
     for i in range(NUM_TOP_THIRD_PARTY_DOMAINS):
-        print(sorted_domains_dict[i][0])
-        print(str(sorted_domains_dict[i][1]))
+        #print(sorted_domains_dict[i][0])
+        #print(str(sorted_domains_dict[i][1]))
         line = str(i+1)+'. '+sorted_domains_dict[i][0]+': '+str(sorted_domains_dict[i][1])+' '+type+'\n'
         results_file.write(line)
     results_file.write('\n')
@@ -78,16 +79,19 @@ def third_party_data(cur,data_type,mode,query):
 # write top 10 third parties and number of requests to file
     third_party_domains_dict = {}
     site_data = [0] * NUM_SITES
-    query_1 = 'SELECT MIN(visit_id) FROM '+query[1]
-    query_2 = 'SELECT visit_id,'+query[0]+' FROM '+query[1]
+    #query_1 = 'SELECT MIN(visit_id) FROM '+query[1]
+    #query_2 = 'SELECT visit_id,'+query[0]+' FROM '+query[1]
 
-    id_subtract = cur.execute(query_1)
-    id_subtract = id_subtract.fetchone()[0]
-
-    for row in cur.execute(query_2):
-        #if query[1]=='javascript_cookies':
+    #id_subtract = cur.execute(query_1)
+    #id_subtract = id_subtract.fetchone()[0]
+    #if query == 'SELECT visit_id,host FROM javascript_cookies':
+        #for row in cur.execute('SELECT * FROM javascript_cookies'):
             #print(row)
-        visit_id = row[0]-id_subtract
+
+    for row in cur.execute(query):
+        if query=='SELECT visit_id,host FROM javascript_cookies':
+            print(row)
+        visit_id = row[0]-1
 
         #print(visit_id)
         third_party_domain = tldextract.extract(row[1]).registered_domain
@@ -98,7 +102,7 @@ def third_party_data(cur,data_type,mode,query):
             else:
                 third_party_domains_dict[third_party_domain] = 1
 
-    print(third_party_domains_dict)
+    #print(third_party_domains_dict)
 
     write_third_party_data(third_party_domains_dict,data_type,mode)
     return site_data
@@ -108,18 +112,20 @@ def make_bar_graph(vanilla_data,adblock_data,graph_title,y_axis_label,graph_file
 # make bar graph with number of http requests per site in vanilla and adblock modes
 # save to file
     x = np.arange(len(sites))
-    width = 0.35
+    width = 0.4
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(20,10))
     rects_vanilla = ax.bar(x - width/2, vanilla_data, width, label='Vanilla Mode')
     rects_adblock = ax.bar(x + width/2, adblock_data, width, label='Ad-Blocking Mode')
 
     ax.set_ylabel(y_axis_label)
+    ax.set_xlabel('Top 100 Websites')
     ax.set_title(graph_title)
     ax.set_xticks(x)
-    ax.set_xticklabels(sites)
+    ax.set_xticklabels(sites,rotation='vertical')
     ax.legend()
-    fig.tight_layout()
+    plt.subplots_adjust(bottom=0.25)
+    #fig.tight_layout()
     plt.savefig(graph_file)
     return
 

@@ -1,0 +1,33 @@
+HTTP Request Data: Top 10 Most Popular Third-Party Domains of Websites in Vanilla Mode
+1. yimg.com: 114 requests
+2. dropboxstatic.com: 89 requests
+3. google.com: 81 requests
+4. gstatic.com: 61 requests
+5. googleusercontent.com: 49 requests
+6. cloudfront.net: 45 requests
+7. ggpht.com: 39 requests
+8. yastatic.net: 38 requests
+9. fbcdn.net: 29 requests
+10. youtube.com: 29 requests
+
+HTTP Request Data: Top 10 Most Popular Third-Party Domains of Websites in Ad-Blocking Mode
+1. yimg.com: 109 requests
+2. dropboxstatic.com: 93 requests
+3. cloudfront.net: 44 requests
+4. gstatic.com: 43 requests
+5. ggpht.com: 43 requests
+6. googleusercontent.com: 43 requests
+7. yastatic.net: 37 requests
+8. google.com: 33 requests
+9. fbcdn.net: 29 requests
+10. youtube.com: 28 requests
+
+Cookie Data: Top 10 Most Popular Third-Party Domains of Websites in Vanilla Mode
+1. google.com: 18 cookies
+2. doubleclick.net: 7 cookies
+3. youtube.com: 6 cookies
+4. facebook.com: 6 cookies
+5. blogger.com: 5 cookies
+6. googleblog.com: 3 cookies
+7. atdmt.com: 2 cookies
+8. quantserve.com: 1 cookies

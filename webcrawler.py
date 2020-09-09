@@ -25,7 +25,7 @@ def crawl(mode):
         browser_params[i]['cookie_instrument'] = True #Record cookie data, saved to javascript_cookies table
         browser_params[i]['js_instrument'] = True #Record JS calls, saved to javascript table
         browser_params[i]['disable_flash'] = False #Enable flash for all three browsers
-        browser_params[i]['display_mode'] = 'headless' #Launch all browsers headless
+        browser_params[i]['display_mode'] = 'native' #Launch all browsers headless
         browser_params[i]['ublock-origin'] = adblock # True for adblock mode, False for vanilla mode
 
     # Update TaskManager configuration (use this for crawl-wide settings)
@@ -43,13 +43,8 @@ def crawl(mode):
     # Visits the sites with all browsers simultaneously
     for site in sites:
         site = 'http://' + site
-        command_sequence = CommandSequence.CommandSequence(
-                            site,
-                            reset=True,
-                            callback=lambda success,
-                            val=site:
-                            print("CommandSequence {} done".format(val)))
-        command_sequence.get(sleep=3, timeout=60)
+        command_sequence = CommandSequence.CommandSequence(site,reset=True)
+        command_sequence.get(sleep=10, timeout=60)
         #command_sequence.dump_profile_cookies(120)
         manager.execute_command_sequence(command_sequence) # ** = synchronized browsers
 
